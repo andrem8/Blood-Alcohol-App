@@ -40,8 +40,12 @@ get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey What is your weight? How long you been boozin? How much have ya had?!"
   end
+  mssg = params[:body].to_i
+  puts = mssg
   twiml.text
 end
+
+
 
 get '/' do
   erb :anotherform
