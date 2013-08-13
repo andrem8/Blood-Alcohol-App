@@ -41,6 +41,7 @@ get '/' do
     r.Sms "Hey What is your weight? How long you been boozin? How much have ya had?!"
   end
   mssg = params[:body].to_i
+  r.Sms "#{mssg}"
   puts = mssg
   twiml.text
 end
