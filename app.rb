@@ -24,7 +24,7 @@ get '/' do
   friends = {
     "16507038808" => "Andre"
   }
-  name = friends[sender] || "Mobile Monkey"
+  name = friends[sender]
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "hello #{name}, "
   end
