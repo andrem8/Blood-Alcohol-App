@@ -21,8 +21,7 @@ from = "+16506459938" # Your Twilio number
 
 get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
-    mssg = params[:body.to_i]
-    r.Sms "#{mssg}"
+    r.Sms "hello"
   end
   twiml.text
 end
