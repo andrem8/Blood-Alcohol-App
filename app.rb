@@ -25,7 +25,7 @@ get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey, welcome to the bac app! What is your weight?"
   end
-  session['m'] = params[:Body]
+  session['m'] = params[:Body]to_f*5
   twiml.text
   redirect to('/hey')
  end
