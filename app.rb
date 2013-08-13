@@ -37,10 +37,10 @@ friends.each do |key, value|
 end
 
 get '/' do
-  twiml = Twilio::TwiML::Response.new do |r, mssg|
+  twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey What is your weight? How long you been boozin? How much have ya had?!"
-  mssg = params[:body.to_i]
-    r.Sms "#{:body}"
+    mssg = params[:body.to_i]
+    r.Sms "#{mssg}"
   end
   twiml.text
 end
