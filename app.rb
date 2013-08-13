@@ -21,12 +21,13 @@ from = "+16506459938" # Your Twilio number
 
 get '/' do
   sender = params[:From]
+  mssg = params[:Body]
   friends = {
     "+16507038808" => "Andre"
   }
   name = friends[sender] || "Mobile Monkey"
   twiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "hello #{name}, "
+    r.Sms "hello #{name}, #{mssg}"
   end
   twiml.text
 end
