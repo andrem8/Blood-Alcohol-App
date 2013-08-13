@@ -24,13 +24,14 @@ get '/' do
     r.Sms "Hey, welcome to the bac app! What is your weight?"
   end
   twiml.text
-  do
-    redirect ('/2ndquestion')
-end
+  redirect to('/2ndquestion')
+ end
 
-get '/2ndquestion'
+get '/2ndquestion' do
   twiml = Twilio::TwiML::Response.new do |r|
   r.Sms "Hey, we have a second question! coolio!?"
+  end
+  twiml.text
   end
 
 
