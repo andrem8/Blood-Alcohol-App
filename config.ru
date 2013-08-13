@@ -1,2 +1,2 @@
-require 'bloodlacoholapp'
+require 'app'
 run Sinatra::Application
