@@ -20,17 +20,18 @@ from = "+16506459938" # Your Twilio number
 
 
 get '/' do
-  sender = params[:From]
-  mssg = params[:Body]
-  friends = {
-    "+16507038808" => "Andre"
-  }
-  name = friends[sender] || "Mobile Monkey"
   twiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "hello #{name}, #{mssg}"
+    r.Sms "Hey, welcome to the bac app! What is your weight?"
   end
   twiml.text
+  do
+    redirect ('/2ndquestion')
 end
+
+get '/2ndquestion'
+  twiml = Twilio::TwiML::Response.new do |r|
+  r.Sms "Hey, we have a second question! coolio!?"
+  end
 
 
 
