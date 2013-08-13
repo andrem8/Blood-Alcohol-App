@@ -5,6 +5,8 @@ require 'shotgun'
 require 'bundler/setup'
 require 'twilio-ruby'
 
+enable :sessions
+
 def round_to_precision(num, prec)
   num = num * (10 ** prec)
   num = num.round
@@ -23,14 +25,22 @@ get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey, welcome to the bac app! What is your weight?"
   end
+  session['m'] = params[:Body]
   twiml.text
-  redirect to('/2ndquestion')
+  redirect to('/hey')
+ end
+ 
+ get '/hey' do
+   twiml = Twilio::TwiML::Response.new do |r|
+   r.Sms "#{session['m']}"
+   end 
+   twiml.text
  end
 
 get '/2ndquestion' do
   twiml = Twilio::TwiML::Response.new do |r|
-  r.Sms "Hey, we have a second question! coolio!?"
-  end
+  r.Sms "Hey, we have #{session[:m]} a second question! coolio!?"
+  end 
   twiml.text
   end
 
