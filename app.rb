@@ -17,24 +17,7 @@ client = Twilio::REST::Client.new account_sid, auth_token
  
 from = "+16506459938" # Your Twilio number
  
-friends = {
-"+16507038808" => "Andre",
-}
-friends.each do |key, value|
-  client.account.sms.messages.create(
-    :from => from,
-    :to => key,
-    :body => "Hey #{value}, Monkey party at 6PM. Bring Bananas!"
-  ) 
-  puts "Sent message to #{value}"
-end
 
-friends.each do |key, value|
-  client.account.sms.messages.create(
-  :from => from,
-  :to => key,
-  :body => "Hey Andre")
-end
 
 get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
