@@ -19,32 +19,18 @@ client = Twilio::REST::Client.new account_sid, auth_token
  
 from = "+16506459938" # Your Twilio number
  
-
-
 get '/' do
-  twiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hey, welcome to the bac app! What is your weight?"
+  x = params[:Body] 
+  if x == "drunk" then
+    twiml = Twilio::TwiML::Response.new do |r|
+      r.Sms "Hey there! Welcome to the BAC app"
   end
-  session['m'] = params[:Body].to_f*5
   twiml.text
-  redirect to('/hey')
- end
+end
+end
+  
+  
  
- get '/hey' do
-   twiml = Twilio::TwiML::Response.new do |r|
-   r.Sms "#{session['m']}"
-   end 
-   twiml.text
- end
-
-get '/2ndquestion' do
-  twiml = Twilio::TwiML::Response.new do |r|
-  r.Sms "Hey, we have #{session[:m]} a second question! coolio!?"
-  end 
-  twiml.text
-  end
-
-
 
 get '/' do
   erb :anotherform
@@ -64,3 +50,17 @@ post '/' do
       "Your BAC of #{zz} is under the legal limit"
     end
 end
+
+ get '/hey' do
+   twiml = Twilio::TwiML::Response.new do |r|
+   r.Sms "#{session['m']}"
+   end 
+   twiml.text
+ end
+
+
+ 
+  
+ 
+
+
