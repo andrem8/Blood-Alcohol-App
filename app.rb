@@ -40,8 +40,10 @@ get '/' do
      minutesleft = timeleft - (hoursleft * 60)
      if bac >= 0.08
        r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit"
-     elsif bac < 0.08
-       r.Sms "Your #{bac} is under the limit"
+     elsif bac.between?(0,0.079)
+       r.Sms "Your BAC of #{bac} is under the limit"
+     elsif bac < 0
+       r.Sms "Have another beer"
      end
   end
   if @x.include?("drunk") then
@@ -55,6 +57,10 @@ get '/' do
   end
 end
 
+get '/' do
+  erb :anotherform
+end
+
 post '/' do
   x = (params[:weight].to_f / 2.2) * 0.58 
   y = params[:time].to_f * 0.015
@@ -65,8 +71,10 @@ post '/' do
   m = n - (h * 60)
   if zz >= 0.08
       "Your BAC of #{zz} is over the federal limit of 0.08. It will be #{h} hours and #{m} minutes before you are under the limit."
-  elsif zz <0.08 
+  elsif zz.between?(0, 0.079)
       "Your BAC of #{zz} is under the legal limit"
+    elsif zz < 0
+      "Have another beer"
     end
 end
 
