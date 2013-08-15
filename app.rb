@@ -20,14 +20,9 @@ client = Twilio::REST::Client.new account_sid, auth_token
 from = "+16506459938" # Your Twilio number
  
 get '/' do
-  puts "hello"
   @x = params[:Body]
-  puts @x == nil
   
   if @x != nil
-    swiml = Twilio::TwiML::Response.new do |r|
-      r.Sms "Hmm, try something else"
-    end
     twiml = Twilio::TwiML::Response.new do |r|
       r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
     end
@@ -63,7 +58,10 @@ get '/' do
       subliml.text 
     end
   else
-    "Hey there"
+    swiml = Twilio::TwiML::Response.new do |r|
+      r.Sms "Hmm, try something else"
+    end
+    swiml.text
   end
 end
 
