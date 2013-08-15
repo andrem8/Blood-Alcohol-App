@@ -20,11 +20,11 @@ client = Twilio::REST::Client.new account_sid, auth_token
 from = "+16506459938" # Your Twilio number
  
 get '/' do
-  x = params[:Body] 
+  @x = params[:Body] 
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
   end
-  session[:m] = 'Andre'
+  session[:a] = params[:Body].partition(' ').last if @x.include?("drunk")
   himl = Twilio::TwiML::Response.new do |r|
     r.Sms "Cool, now text drinks followed by how many drinks you've had"
   end
@@ -32,15 +32,15 @@ get '/' do
     r.Sms "Almost there!!! Text time followed by how long have you been drinking"
   end
   subliml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hurray #{session[:m]}"
+    r.Sms "Hurray #{session[:a]}"
   end
-  if x == "drunk" then
+  if @x.include?("drunk") then
     twiml.text
-  elsif x == "weight"
+  elsif @x.include?("weight")
     himl.text
-  elsif x == "drinks"
+  elsif @x.include?("drinks")
     timl.text
-  elsif x == "time"
+  elsif @x.include?("time")
     subliml.text 
   end
 end
