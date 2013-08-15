@@ -21,16 +21,29 @@ from = "+16506459938" # Your Twilio number
  
 get '/' do
   x = params[:Body] 
-  if x == "drunk" then
-    twiml = Twilio::TwiML::Response.new do |r|
-      r.Sms "Hey there! Welcome to the BAC app"
+  twiml = Twilio::TwiML::Response.new do |r|
+    r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
   end
-  twiml.text
+  session[:m] = 'Andre'
+  himl = Twilio::TwiML::Response.new do |r|
+    r.Sms "Cool, now text drinks followed by how many drinks you've had"
+  end
+  timl = Twilio::TwiML::Response.new do |r|
+    r.Sms "Almost there!!! Text time followed by how long have you been drinking"
+  end
+  subliml = Twilio::TwiML::Response.new do |r|
+    r.Sms "Hurray #{session[:m]}"
+  end
+  if x == "drunk" then
+    twiml.text
+  elsif x == "weight"
+    himl.text
+  elsif x == "drinks"
+    timl.text
+  elsif x == "time"
+    subliml.text 
+  end
 end
-end
-  
-  
- 
 
 get '/' do
   erb :anotherform
