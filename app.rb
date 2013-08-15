@@ -20,6 +20,7 @@ client = Twilio::REST::Client.new account_sid, auth_token
 from = "+16506459938" # Your Twilio number
  
 get '/' do
+  "Hey"
   @x = params[:Body] 
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
@@ -57,26 +58,7 @@ get '/' do
   end
 end
 
-get '/' do
-  erb :anotherform
-end
 
-post '/' do
-  x = (params[:weight].to_f / 2.2) * 0.58 
-  y = params[:time].to_f * 0.015
-  z = params[:drinks].to_f * 0.9672
-  zz = round_to_precision((z/x-y),4)
-  n = 40*(zz-0.08)/0.01
-  h = (n / 60).floor 
-  m = n - (h * 60)
-  if zz >= 0.08
-      "Your BAC of #{zz} is over the federal limit of 0.08. It will be #{h} hours and #{m} minutes before you are under the limit."
-  elsif zz.between?(0, 0.079)
-      "Your BAC of #{zz} is under the legal limit"
-    elsif zz < 0
-      "Have another beer"
-    end
-end
 
  
 
