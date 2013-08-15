@@ -24,15 +24,25 @@ get '/' do
   twiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
   end
-  session[:a] = params[:Body].partition(' ').last if @x.include?("drunk")
+  session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
   himl = Twilio::TwiML::Response.new do |r|
     r.Sms "Cool, now text drinks followed by how many drinks you've had"
   end
+  session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
   timl = Twilio::TwiML::Response.new do |r|
     r.Sms "Almost there!!! Text time followed by how long have you been drinking"
   end
+  session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
   subliml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hurray #{session[:a]}"
+     bac = round_to_precision((session[:b]/session[:a]-session[:c]),4)
+     timeleft = 40*(bac-0.08)/0.01
+     hoursleft = (timeleft / 60).floor
+     minutesleft = timeleft - (hoursleft * 60)
+     if bac >= 0.08
+       r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit"
+     elsif bac < 0.08
+       r.Sms "Your #{bac} is under the limit"
+     end
   end
   if @x.include?("drunk") then
     twiml.text
@@ -43,10 +53,6 @@ get '/' do
   elsif @x.include?("time")
     subliml.text 
   end
-end
-
-get '/' do
-  erb :anotherform
 end
 
 post '/' do
@@ -64,13 +70,7 @@ post '/' do
     end
 end
 
- get '/hey' do
-   twiml = Twilio::TwiML::Response.new do |r|
-   r.Sms "#{session['m']}"
-   end 
-   twiml.text
- end
-
+ 
 
  
   
