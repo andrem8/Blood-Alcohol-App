@@ -22,7 +22,12 @@ from = "+16506459938" # Your Twilio number
 get '/' do
   @x = params[:Body]
   
-  if @x != nil
+  if @x == nil
+    swiml = Twilio::TwiML::Response.new do |r|
+      r.Sms "Hmm, try something else"
+    end
+    swiml.text
+  else 
     twiml = Twilio::TwiML::Response.new do |r|
       r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
     end
@@ -57,20 +62,6 @@ get '/' do
     elsif @x.include?("time")
       subliml.text 
     end
-  else
-    swiml = Twilio::TwiML::Response.new do |r|
-      r.Sms "Hmm, try something else"
-    end
-    swiml.text
   end
 end
-
-
-
- 
-
- 
   
- 
-
-
