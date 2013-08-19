@@ -39,55 +39,58 @@ http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 
-
-
 get '/' do
   @x = params[:Body]
-  session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
-  session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
-  session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
-  session[:d] = params[:Body].partition(' ').last if @x.include?("tweet")
-  bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
-  timeleft = 40*(bac-0.08)/0.01
-  hoursleft = (timeleft / 60).floor
-  minutesleft = timeleft - (hoursleft.floor * 60)
+  if @x.nil? == true
+    puts "this is nillshit!"
+  else
+    session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
+    session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
+    session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
+    session[:d] = params[:Body].partition(' ').last if @x.include?("tweet")
+   
+    bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
+    timeleft = 40*(bac-0.08)/0.01 
+    hoursleft = (timeleft / 60).floor 
+    minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
   
-  subliml = Twilio::TwiML::Response.new do |r|
-    if bac >= 0.08
-      r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit"
-    elsif bac.between?(0,0.08)
-      r.Sms "Your BAC of #{bac} is under the limit"
-    elsif bac.between?(-0.5,0)
-      r.Sms "Have another beer"
+    subliml = Twilio::TwiML::Response.new do |r| 
+      if bac >= 0.08  
+        r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit. Text tweet to anonymously exclaim your inebriation!"
+      elsif bac.between?(0,0.08)
+        r.Sms "Your BAC of #{bac} is under the limit"
+      elsif bac.between?(-0.5,0)
+        r.Sms "Have another beer"
+      end
     end
-  end
 
-  twiml = Twilio::TwiML::Response.new do |r|
-      r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
-    end
-  himl = Twilio::TwiML::Response.new do |r|
-    r.Sms "Cool, now text drinks followed by how many drinks you've had"
-    end
-  timl = Twilio::TwiML::Response.new do |r|
-    r.Sms "Almost there!!! Text time followed by how long have you been drinking"
-    end
-  swiml = Twilio::TwiML::Response.new do |r|
+    twiml = Twilio::TwiML::Response.new do |r|
+        r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
+      end
+    himl = Twilio::TwiML::Response.new do |r|
+      r.Sms "Cool, now text drinks followed by how many drinks you've had"
+      end
+    timl = Twilio::TwiML::Response.new do |r|
+      r.Sms "Almost there!!! Text time followed by how long have you been drinking"
+      end
+    swiml = Twilio::TwiML::Response.new do |r|
       r.Sms "Hmm, try something else"
     end
     
-    if @x.include?("drunk") then
-      twiml.text
-    elsif @x.include?("weight")
-      himl.text
-    elsif @x.include?("drinks")
-      timl.text
-    elsif @x.include?("time")
-      subliml.text 
-    elsif @x.include?("tweet")
-      request.set_form_data(
-        "status" => session[:d])
-      request.oauth! http, consumer_key, access_token
-      http.start
-      response = http.request request
+     if @x.include?("drunk") then
+        twiml.text 
+     elsif @x.include?("weight")
+        himl.text
+     elsif @x.include?("drinks")
+        timl.text
+     elsif @x.include?("time")
+        subliml.text 
+     elsif @x.include?("tweet")
+        request.set_form_data(
+          "status" => session[:d])
+        request.oauth! http, consumer_key, access_token
+        http.start
+        response = http.request request
+      end
     end
 end
