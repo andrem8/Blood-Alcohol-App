@@ -47,7 +47,7 @@ get '/' do
     session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
     session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
     session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
-    session[:d] = params[:Body].partition(' ').last if @x.include?("tweet")
+    x = params[:Body].partition(' ').last if @x.include?("tweet")
     
     if session[:a].nil? == true
       twiml = Twilio::TwiML::Response.new do |r|
@@ -64,12 +64,6 @@ get '/' do
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
       timl.text  
-    elsif session[:d].nil? == true
-      request.set_form_data(
-        "status" => session[:d])
-      request.oauth! http, consumer_key, access_token
-      http.start
-      response = http.request request
     else
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
@@ -109,7 +103,7 @@ get '/' do
         subliml.text 
      elsif @x.include?("tweet")
         request.set_form_data(
-          "status" => session[:d])
+          "status" => x)
         request.oauth! http, consumer_key, access_token
         http.start
         response = http.request request
