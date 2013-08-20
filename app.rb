@@ -64,6 +64,8 @@ get '/' do
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
       timl.text  
+    elsif x.nil? == true
+      puts "This isn't nam.  There are rules"
     else
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
