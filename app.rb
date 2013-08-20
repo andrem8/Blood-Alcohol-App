@@ -65,7 +65,7 @@ get '/' do
         end
       timl.text
     elsif x.nil? == true && @x.include?("time") == true
-      bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
+      bac = round_to_precision(session[:b]/session[:a]-session[:c],2)
       timeleft = 40*(bac-0.08)/0.01 
       hoursleft = (timeleft / 60).floor 
       minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
@@ -81,7 +81,7 @@ get '/' do
       end
       subliml.text
     else 
-    bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
+    bac = round_to_precision(session[:b]/session[:a]-session[:c],2)
     timeleft = 40*(bac-0.08)/0.01 
     hoursleft = (timeleft / 60).floor 
     minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
