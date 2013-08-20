@@ -63,9 +63,8 @@ get '/' do
       timl = Twilio::TwiML::Response.new do |r|
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
-      timl.text  
-    elsif x.nil? == true && @x.include?("tweet") == true
-      puts "Shut up Donny"
+      timl.text
+    
     else
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
