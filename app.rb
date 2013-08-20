@@ -54,7 +54,7 @@ get '/' do
           r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
         end
       twiml.text
-    elsif session[:a].nil? == false && session[:b].nil? == false
+    elsif session[:a].nil? == false && session[:b].nil? == false && session[:b].nil? == false
       twiml = Twilio::TwiML::Response.new do |r|
           r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
         end
