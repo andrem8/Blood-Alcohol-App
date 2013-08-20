@@ -40,7 +40,11 @@ http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 
 get '/' do
-  @x = params[:Body].downcase
+  if params[:Body].nil? == true
+    puts "I hate nil method errors"
+  else 
+    @x = params[:Body].downcase
+  end
   if @x.nil? == true
     puts "this is nillshit!"
   else
@@ -65,14 +69,14 @@ get '/' do
         end
       timl.text
     elsif x.nil? == true && @x.include?("time") == true
-      bac = round_to_precision(session[:b]/session[:a]-session[:c],2)
+      bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
       timeleft = 40*(bac-0.08)/0.01 
       hoursleft = (timeleft / 60).floor 
       minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
   
       subliml = Twilio::TwiML::Response.new do |r| 
         if bac >= 0.08  
-          r.Sms "Your BAC of #{bac} is over 0.08.  In #{hoursleft} hrs #{minutesleft} mins you (may) be under the limit. Text tweet and a message!"
+          r.Sms "Your BAC of #{round_to_precision(bac, 2)} is over 0.08.  In #{hoursleft} hrs #{minutesleft} mins you (may) be under the limit. Text tweet and a message!"
         elsif bac.between?(0,0.08)
           r.Sms "Your BAC of #{bac} is under the limit"
         elsif bac.between?(-0.5,0)
@@ -81,14 +85,14 @@ get '/' do
       end
       subliml.text
     else 
-    bac = round_to_precision(session[:b]/session[:a]-session[:c],2)
+    bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
     hoursleft = (timeleft / 60).floor 
     minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
   
     subliml = Twilio::TwiML::Response.new do |r| 
       if bac >= 0.08  
-        r.Sms "Your BAC of #{bac} is over 0.08.  In #{hoursleft} hrs #{minutesleft} mins you (may) be under the limit. Text tweet and a message!"
+        r.Sms "Your BAC of #{round_to_precision(bac, 2)} is over 0.08.  In #{hoursleft} hrs #{minutesleft} mins you (may) be under the limit. Text tweet and a message!"
       elsif bac.between?(0,0.08)
         r.Sms "Your BAC of #{bac} is under the limit"
       elsif bac.between?(-0.5,0)
@@ -116,8 +120,14 @@ get '/' do
      elsif @x.include?("drinks")
         timl.text
      elsif @x.include?("time")
-        subliml.text 
-     elsif @x.include?("tweet")
+        subliml.text
+     elsif x.nil? == true && @x.include?("tweet")
+       request.set_form_data(
+         "status" => x)
+       request.oauth! http, consumer_key, access_token
+       http.start
+       response = http.request request
+     elsif x.nil? == false && @x.include?("tweet")
         request.set_form_data(
           "status" => x)
         request.oauth! http, consumer_key, access_token
