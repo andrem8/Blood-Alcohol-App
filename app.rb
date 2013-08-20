@@ -40,7 +40,7 @@ http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 
 get '/' do
-  @x = params[:Body]
+  @x = params[:Body].downcase
   if @x.nil? == true
     puts "this is nillshit!"
   else
