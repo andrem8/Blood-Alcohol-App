@@ -64,8 +64,23 @@ get '/' do
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
       timl.text
-    
-    else
+    elsif x.nil? == true && @x.include?("time") == true
+      bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
+      timeleft = 40*(bac-0.08)/0.01 
+      hoursleft = (timeleft / 60).floor 
+      minutesleft = (timeleft - (hoursleft.floor * 60)).floor 
+  
+      subliml = Twilio::TwiML::Response.new do |r| 
+        if bac >= 0.08  
+          r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit. Text tweet to anonymously exclaim your inebriation!"
+        elsif bac.between?(0,0.08)
+          r.Sms "Your BAC of #{bac} is under the limit"
+        elsif bac.between?(-0.5,0)
+          r.Sms "Have another beer"
+        end
+      end
+      subliml.text
+    else 
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
     hoursleft = (timeleft / 60).floor 
