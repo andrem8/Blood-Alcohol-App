@@ -49,17 +49,17 @@ get '/' do
     session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
     x = params[:Body].partition(' ').last if @x.include?("tweet")
     
-    if session[:a].nil? == true
+    if session[:a].nil? == true && @x.include?("drunk") == true
       twiml = Twilio::TwiML::Response.new do |r|
           r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
         end
       twiml.text
-    elsif session[:b].nil? == true
+    elsif session[:b].nil? == true && @x.include?("weight") == true
       himl = Twilio::TwiML::Response.new do |r|
         r.Sms "Cool, now text drinks followed by how many drinks you've had"
         end
       himl.text
-    elsif session[:c].nil? == true
+    elsif session[:c].nil? == true && @x.include?("drinks") == true
       timl = Twilio::TwiML::Response.new do |r|
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
