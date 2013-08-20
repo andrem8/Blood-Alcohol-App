@@ -47,7 +47,7 @@ get '/' do
     session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
     session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
     session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
-    xx = params[:Body].partition(' ').last if @x.include?("tweet")
+    x = params[:Body].partition(' ').last if @x.include?("tweet")
     
     if session[:a].nil? == true
       twiml = Twilio::TwiML::Response.new do |r|
@@ -64,17 +64,8 @@ get '/' do
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
       timl.text  
-    elsif xx.nil? == true
-      subliml = Twilio::TwiML::Response.new do |r| 
-        if bac >= 0.08  
-          r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit. Text tweet to anonymously exclaim your inebriation!"
-        elsif bac.between?(0,0.08)
-          r.Sms "Your BAC of #{bac} is under the limit"
-        elsif bac.between?(-0.5,0)
-          r.Sms "Have another beer"
-        end
-      end
-      subliml.text
+    elsif x.nil? == true && @x.include?("tweet") == true
+      puts "Shut up Donny"
     else
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
@@ -114,7 +105,7 @@ get '/' do
         subliml.text 
      elsif @x.include?("tweet")
         request.set_form_data(
-          "status" => xx)
+          "status" => x)
         request.oauth! http, consumer_key, access_token
         http.start
         response = http.request request
