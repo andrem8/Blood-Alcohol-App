@@ -49,8 +49,26 @@ get '/' do
     session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
     session[:d] = params[:Body].partition(' ').last if @x.include?("tweet")
     
-    if session[:b].nil? == true
-      puts "Walter this isn't nam"
+    if session[:a].nil? == true
+      twiml = Twilio::TwiML::Response.new do |r|
+          r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
+        end
+      twiml.text
+    elsif session[:a].nil? == false && session[:b].nil? == false
+      twiml = Twilio::TwiML::Response.new do |r|
+          r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
+        end
+      twiml.text
+    elsif session[:b].nil? == true
+      himl = Twilio::TwiML::Response.new do |r|
+        r.Sms "Cool, now text drinks followed by how many drinks you've had"
+        end
+      himl.text
+    elsif session[:c].nil? == true
+      timl = Twilio::TwiML::Response.new do |r|
+        r.Sms "Almost there!!! Text time followed by how long have you been drinking"
+        end
+      timl.text  
     else
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
