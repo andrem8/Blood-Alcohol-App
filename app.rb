@@ -72,7 +72,7 @@ get '/' do
   
       subliml = Twilio::TwiML::Response.new do |r| 
         if bac >= 0.08  
-          r.Sms "Your BAC of #{bac} is over the federal limit of 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit. Text tweet to anonymously exclaim your inebriation!"
+          r.Sms "Your BAC of #{bac} is over 0.08.  It will be #{hoursleft} hours and #{minutesleft} minutes until you are under the limit. Text tweet and a message to anonymously exclaim your inebriation!"
         elsif bac.between?(0,0.08)
           r.Sms "Your BAC of #{bac} is under the limit"
         elsif bac.between?(-0.5,0)
