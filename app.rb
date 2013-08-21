@@ -66,6 +66,7 @@ request = Net::HTTP::Post.new address.request_uri
 http             = Net::HTTP.new address.host, address.port
 http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+http.start
 
 
 get '/' do
@@ -168,7 +169,6 @@ get '/' do
        request.set_form_data(
          "status" => "#{session[:twitter]} ##{citylocate}##{round_to_precision(bac, 2)}")
        request.oauth! http, consumer_key, access_token
-       http.start
        response = http.request request
       end
     end
