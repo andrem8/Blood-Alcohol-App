@@ -29,6 +29,7 @@ def handle_drinks
     puts "error"
   elsif weight < 0
     puts "error"
+  elsif
     session[:drinks]
   end
 end
@@ -126,7 +127,7 @@ get '/' do
       subliml.text
     elsif @x.include?("twitter")
       request.set_form_data(
-        "status" => "#{session[:twitter].to_s}}")
+        "status" => "\##{citylocate} \##{round_to_precision(bac, 2)}")
       request.oauth! http, consumer_key, access_token
       response = http.request request
     else 
@@ -169,7 +170,7 @@ get '/' do
         subliml.text
      elsif @x.include?("tweet")
        request.set_form_data(
-         "status" => "#{session[:twitter].to_s}}")
+         "status" => "\##{citylocate} \##{round_to_precision(bac, 2)}")
        request.oauth! http, consumer_key, access_token
        response = http.request request
       end
