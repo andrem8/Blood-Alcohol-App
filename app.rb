@@ -80,7 +80,6 @@ get '/' do
     handle_weight
   end
   
-  puts "#{session[:weight]}"
     
   if @x.nil? == true
     puts "changed something!"
@@ -105,7 +104,7 @@ get '/' do
         r.Sms "Almost there!!! Text time followed by how long have you been drinking"
         end
       timl.text
-    elsif twitter.nil? == true && @x.include?("time") == true
+    elsif @x.include?("time") == true
       bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
       timeleft = 40*(bac-0.08)/0.01 
       hoursleft = (timeleft / 60).floor 
@@ -165,20 +164,12 @@ get '/' do
         timl.text
      elsif @x.include?("time")
         subliml.text
-     elsif twitter.nil? == true && @x.include?("tweet")
+     elsif @x.include?("tweet")
        request.set_form_data(
-         "status" => "#{twitter} ##{citylocate}##{round_to_precision(bac, 2)}")
+         "status" => "#{session[:twitter]} ##{citylocate}##{round_to_precision(bac, 2)}")
        request.oauth! http, consumer_key, access_token
        http.start
        response = http.request request
-       puts
-     elsif twitter.nil? == false && @x.include?("tweet")
-        request.set_form_data(
-          "status" => "#{twitter} ##{citylocate}##{round_to_precision(bac, 2)}")
-        request.oauth! http, consumer_key, access_token
-        http.start
-        response = http.request request
-        puts "hello"
       end
     end
   end
