@@ -126,7 +126,7 @@ get '/' do
         "status" => "#{session[:twitter]}}")
       request.oauth! http, consumer_key, access_token
       response = http.request request
-    else 
+    end 
     
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
