@@ -164,6 +164,7 @@ get '/' do
      handle_minutesleft
      handle_bac_response.text
    elsif @x.include?("tweet")
+     handle_bac
      handle_citylocate
      handle_twitterstatus
      request.set_form_data(
