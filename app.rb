@@ -13,6 +13,35 @@ def round_to_precision(num, prec)
   num = num.to_f / (10 ** prec).to_f
 end
 
+def handle_weight
+  weight = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58
+  if weight == false
+    puts "error"
+  elsif weight < 0
+    puts "error"
+    session[:weight]
+  end
+end
+
+def handle_drinks
+  drinks = params[:Body].partition(' ').last.to_f * 0.9672
+  if drinks == false
+    puts "error"
+  elsif weight < 0
+    puts "error"
+    session[:drinks]
+  end
+end
+
+def handle_tweet
+  twitter = params[:Body].partition(' ').last
+  if twitter == false
+    puts "error"
+  else
+    session[:twitter]
+  end
+end
+
 
 account_sid = "ACfa67ab7b63d3ae16a74365cd0cb14ae2"
 auth_token = "f79e1d47cc1cc36ae5de4ead98b226b2"
@@ -40,13 +69,21 @@ http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 
 get '/' do
+  
+  # Make sure the text mesage has a body.
   if params[:Body].nil? == true
-    puts "I hate nil method errors"
+    halt 400
   else 
     @x = params[:Body].downcase
   end
+  if @x.include?("weight")
+    handle_weight
+  end
+  
+  puts "#{session[:weight]}"
+    
   if @x.nil? == true
-    puts "this is nillshit!"
+    puts "changed something!"
   else
     session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
     session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
@@ -84,7 +121,14 @@ get '/' do
         end
       end
       subliml.text
+    elsif @x.include?("twitter")
+      request.set_form_data(
+        "status" => "#{session[:twitter]} ##{citylocate}##{round_to_precision(bac, 2)}")
+      request.oauth! http, consumer_key, access_token
+      http.start
+      response = http.request request
     else 
+    
     bac = round_to_precision(session[:b]/session[:a]-session[:c],3)
     timeleft = 40*(bac-0.08)/0.01 
     hoursleft = (timeleft / 60).floor 
@@ -127,13 +171,15 @@ get '/' do
        request.oauth! http, consumer_key, access_token
        http.start
        response = http.request request
+       puts
      elsif twitter.nil? == false && @x.include?("tweet")
         request.set_form_data(
           "status" => "#{twitter} ##{citylocate}##{round_to_precision(bac, 2)}")
         request.oauth! http, consumer_key, access_token
         http.start
         response = http.request request
+        puts "hello"
       end
     end
-    end
+  end
 end
