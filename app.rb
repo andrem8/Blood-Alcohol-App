@@ -42,7 +42,7 @@ def handle_citylocate
 end
 
 def handle_twitterstatus
-  session[:twitter] = params[:Body].partition(' ').last
+  session[:twitter] = params[:Body].partition(' ').last.to_f
   if session[:twitter].nil? == true
     puts "error"
   end
