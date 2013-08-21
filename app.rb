@@ -88,7 +88,7 @@ get '/' do
     session[:a] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58 if @x.include?("weight")
     session[:b] = params[:Body].partition(' ').last.to_f * 0.9672 if @x.include?("drinks")
     session[:c] = params[:Body].partition(' ').last.to_f * 0.015 if @x.include?("time")
-    twitter = params[:Body].partition(' ').last if @x.include?("tweet")
+    
     citylocate = params[:FromCity]
     if session[:a].nil? == true && @x.include?("drunk") == true
       twiml = Twilio::TwiML::Response.new do |r|
