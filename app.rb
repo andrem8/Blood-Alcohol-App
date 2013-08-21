@@ -125,7 +125,6 @@ get '/' do
       request.set_form_data(
         "status" => "#{session[:twitter]} ##{citylocate}##{round_to_precision(bac, 2)}")
       request.oauth! http, consumer_key, access_token
-      http.start
       response = http.request request
     else 
     
