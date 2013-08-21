@@ -65,7 +65,7 @@ request = Net::HTTP::Post.new address.request_uri
 
 http             = Net::HTTP.new address.host, address.port
 http.use_ssl     = true
-http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+http.verify_mode = OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 
 get '/' do
