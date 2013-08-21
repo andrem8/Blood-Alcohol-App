@@ -123,7 +123,7 @@ get '/' do
       subliml.text
     elsif @x.include?("twitter")
       request.set_form_data(
-        "status" => "hey")
+        "status" => "#{session[:twitter]} \##{citylocate} \##{round_to_precision(bac, 2)}")
       request.oauth! http, consumer_key, access_token
       response = http.request request
     else 
@@ -166,7 +166,7 @@ get '/' do
         subliml.text
      elsif @x.include?("tweet")
        request.set_form_data(
-         "status" => "hey")
+         "status" => "#{session[:twitter]} \##{citylocate} \##{round_to_precision(bac, 2)}")
        request.oauth! http, consumer_key, access_token
        response = http.request request
       end
