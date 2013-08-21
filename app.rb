@@ -126,7 +126,7 @@ get '/' do
       subliml.text
     elsif @x.include?("twitter")
       request.set_form_data(
-        "status" => "#{session[:twitter]}}")
+        "status" => "#{session[:twitter].to_s}}")
       request.oauth! http, consumer_key, access_token
       response = http.request request
     else 
