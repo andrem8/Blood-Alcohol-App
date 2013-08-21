@@ -42,6 +42,7 @@ def handle_tweet
   else
     puts "error"
   end
+  end
 end
 
 
