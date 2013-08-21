@@ -37,8 +37,10 @@ def handle_tweet
   twitter = params[:Body].partition(' ').last
   if twitter == false
     puts "error"
-  else
+  if twitter.include?("tweet")
     session[:twitter]
+  else
+    puts "error"
   end
 end
 
