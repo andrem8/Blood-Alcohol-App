@@ -181,7 +181,7 @@ get '/' do
      #handle_citylocate
      handle_twitterstatus
      request.set_form_data(
-       "status" => "#{session[:twitter]to_s}") #{session[:citylocate]} \##{session[:bac]}"
+       "status" => "#{session[:twitter].to_s}") #{session[:citylocate]} \##{session[:bac]}"
      request.oauth! http, consumer_key, access_token
      response = http.request request
    end
