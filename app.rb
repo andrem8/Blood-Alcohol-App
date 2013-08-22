@@ -13,24 +13,44 @@ def round_to_precision(num, prec)
   num = num.to_f / (10 ** prec).to_f
 end
 
+def is_number?
+  self.to_f == self
+end
+
 def handle_weight
   session[:weight] = (params[:Body].partition(' ').last.to_f / 2.2) * 0.58
   if session[:weight].nil? == true
-    puts "error"
+    handle_error.text
+  elsif session[:weight] <20
+    handle_error.text
+  else
+    handle_drinks_sms.text
   end
 end
 
 def handle_drinks
   session[:drinks] = params[:Body].partition(' ').last.to_f * 0.9672
   if session[:drinks].nil? == true
-    puts "error"
+    handle_error.text
+  elsif session[:drinks] <0.9
+    handle_error.text
+  else
+    handle_time_sms.text
   end
 end
 
 def handle_time
   session[:time] = params[:Body].partition(' ').last.to_f * 0.015
   if session[:time].nil? == true
-    puts "error"
+    handle_error.text
+  elsif session[:time] < 0.01
+    handle_error.text
+  else
+    handle_bac
+    handle_timeleft
+    handle_hoursleft
+    handle_minutesleft
+    handle_bac_response.text
   end
 end
 
@@ -109,7 +129,7 @@ def handle_time_sms
 end
 def handle_error
   swiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hmm, try something else"
+    r.Sms "Hmm, try that again.  The value bla bla bla isn't right."
   end
 end
 
@@ -152,17 +172,10 @@ get '/' do
      handle_welcome_bac.text
   elsif @x.include?("weight")
      handle_weight
-     handle_drinks_sms.text
   elsif @x.include?("drinks")
      handle_drinks
-     handle_time_sms.text
   elsif @x.include?("time")
      handle_time
-     handle_bac
-     handle_timeleft
-     handle_hoursleft
-     handle_minutesleft
-     handle_bac_response.text
    elsif @x.include?("tweet")
      handle_bac
      handle_citylocate
