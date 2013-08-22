@@ -41,7 +41,12 @@ def handle_citylocate
   end
 end
 
-
+def handle_twitterstatus
+  twitter = params[:Body].partition(' ').last
+  if twitter.nil? == true
+    puts "error"
+  end
+end
 
 def handle_bac
   session[:bac] = round_to_precision(session[:drinks]/session[:weight]-session[:time],3)
@@ -159,17 +164,11 @@ get '/' do
      handle_minutesleft
      handle_bac_response.text
    elsif @x.include?("tweet")
-     def handle_twitterstatus
-       session[:twitter] = params[:Body].partition(' ').last
-       if session[:twitter].nil? == true
-         puts "error"
-       end
-     end
      handle_bac
      handle_citylocate
      handle_twitterstatus
      request.set_form_data(
-       "status" => "#{session[:twitter] }")
+       "status" => "#{params[:Body].partition(' ').last}")
      request.oauth! http, consumer_key, access_token
      response = http.request request
    end
