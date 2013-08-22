@@ -42,8 +42,8 @@ def handle_citylocate
 end
 
 def handle_twitterstatus
-  twitter = params[:Body].partition(' ').last
-  if twitter.nil? == true
+  session[:twitter] = params[:Body].partition(' ').last
+  if session[:twitter].nil? == true
     puts "error"
   end
 end
@@ -168,7 +168,7 @@ get '/' do
      handle_citylocate
      handle_twitterstatus
      request.set_form_data(
-       "status" => "#{params[:Body].partition(' ').last}")
+       "status" => "#{session[:twitter]} \##{session[:citylocate]} \##{session[:bac]}")
      request.oauth! http, consumer_key, access_token
      response = http.request request
    end
