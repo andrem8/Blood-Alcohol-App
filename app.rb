@@ -177,8 +177,8 @@ get '/' do
   elsif @x.include?("time")
      handle_time
    elsif @x.include?("tweet")
-     handle_bac
-     handle_citylocate
+     #handle_bac
+     #handle_citylocate
      handle_twitterstatus
      request.set_form_data(
        "status" => "#{session[:twitter]}") #{session[:citylocate]} \##{session[:bac]}"
