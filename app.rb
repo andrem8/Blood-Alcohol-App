@@ -125,7 +125,7 @@ def handle_drinks_sms
 end
 def handle_time_sms
   timl = Twilio::TwiML::Response.new do |r|
-    r.Sms "Almost there!!! Text time followed by how long have you been drinking"
+    r.Sms "Almost there!!! Text time followed by how many hours you've been drinking"
   end
 end
 def handle_error
