@@ -32,7 +32,7 @@ end
 def handle_drinks
   session[:drinks] = params[:Body].partition(' ').last.to_f * 0.9672
   if session[:drinks].nil? == true
-    handle_error.text
+    handle_error_no_variable.text
   elsif session[:drinks] <0.9
     handle_error.text
   else
@@ -130,13 +130,19 @@ def handle_time_sms
 end
 def handle_error
   swiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hmm, try that again.  The value bla bla bla isn't right."
+    r.Sms "Hmm, try that again.  I have no idea what you just input."
+  end
+end
+
+def handle_error_no_variable
+  twiml = Twilio::TwiML::Response.new do |r|
+    r.Sms "Hmm, so how many drinks was that exactly?"
   end
 end
 
 def handle_tweetsent_sms
   fwiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Your tweet was sent!  Check out the feed at on Twitter @drunktxter."
+    r.Sms "Your tweet was sent!  Check out the feed on Twitter @drunktxter."
   end
 end
 
@@ -182,7 +188,7 @@ get '/' do
      handle_time
    elsif @x.include?("tweet")
      handle_twitterstatus
-     Twitter.update(session[:twitter]+" \##{session[:citylocate]}"+" \##{session[:bac].to_s}") unless session[:twitter].nil?
+     Twitter.update(session[:twitter]+" \##{session[:bac].to_s}") unless session[:twitter].nil?
      handle_tweetsent_sms.text
    else
      handle_errors.text
