@@ -183,7 +183,7 @@ get '/' do
    elsif @x.include?("tweet")
      handle_twitterstatus
      Twitter.update(session[:twitter]+" \##{session[:citylocate]}"+" \##{session[:bac].to_s}") unless session[:twitter].nil?
-     handle_tweetsent_sms
+     handle_tweetsent_sms.text
    else
      handle_errors.text
    end
