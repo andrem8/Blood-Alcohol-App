@@ -32,9 +32,9 @@ end
 def handle_drinks
   session[:drinks] = params[:Body].partition(' ').last.to_f * 0.9672
   if session[:drinks].nil? == true
-    handle_error_no_variable.text
-  elsif session[:drinks] <0.9
     handle_error.text
+  elsif session[:drinks] <0.9
+    handle_error_no_variable.text
   else
     handle_time_sms.text
   end
