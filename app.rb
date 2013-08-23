@@ -4,6 +4,7 @@ require 'haml'
 require 'bundler/setup'
 require 'twilio-ruby'
 require 'oauth'
+require 'twitter'
 
 enable :sessions
 
@@ -62,7 +63,7 @@ def handle_citylocate
 end
 
 def handle_twitterstatus
-  session[:twitter] = params[:Body].partition(' ').last
+  session[:twitter] = params[:Body].partition(' ').last 
   if session[:twitter].nil? == true
     puts "error"
   end
@@ -147,16 +148,13 @@ access_token = OAuth::Token.new(
   "1674434030-5eLHRjST9620ptSpE845YdVt3OGtz7LNOdGkZdd",
   "H0sR8hiRU5vSkqPJvpUflRdxvEQPjvmAxuaq3xfnxI")
 
-#MoreTwitter Stuff #justrealizedoriginsofhashtag
-baseurl = "https://api.twitter.com"
-path    = "/1.1/statuses/update.json"
-address = URI("#{baseurl}#{path}")
-request = Net::HTTP::Post.new address.request_uri
 
-http             = Net::HTTP.new address.host, address.port
-http.use_ssl     = true
-http.verify_mode = OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-http.start
+Twitter.configure do |config|
+  config.consumer_key = "KgVEEBIltLRA8PxK2vzTQ"
+  config.consumer_secret = "kGGE4u3gcRf89l21GxinXopblPTh06vTNVft6QYTU"
+  config.oauth_token = "1674434030-5eLHRjST9620ptSpE845YdVt3OGtz7LNOdGkZdd"
+  config.oauth_token_secret = "H0sR8hiRU5vSkqPJvpUflRdxvEQPjvmAxuaq3xfnxI"
+end
 
 get '/' do
   
@@ -177,16 +175,10 @@ get '/' do
   elsif @x.include?("time")
      handle_time
    elsif @x.include?("tweet")
-     #handle_bac
-     #handle_citylocate
-     #handle_twitterstatus
-     request.set_form_data(
-       "status") #= "#{params[:Body].partition(' ').last}")
-        #{session[:twitter]} #{session[:citylocate]}    
-     request.oauth! http, consumer_key, access_token
-     response = http.request request
+     handle_twitterstatus
+     Twitter.update(session[:twitter]+" \##{session[:citylocate]}"+" \##{session[:bac].to_s}") unless session[:twitter].nil?
    else
-     handle_error.text
+     handle_errors.text
    end
  end
   
