@@ -134,7 +134,7 @@ def handle_error
   end
 end
 
-def hande_tweetsent_sms
+def handle_tweetsent_sms
   fwiml = Twilio::TwiML::Response.new do |r|
     r.Sms "Your tweet was sent!  Check out the feed at on Twitter @drunktxter."
   end
