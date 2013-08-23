@@ -181,10 +181,12 @@ get '/' do
      #handle_citylocate
      #handle_twitterstatus
      request.set_form_data(
-       "status" => "#{params[:Body].partition(' ').last}")
+       "status") #= "#{params[:Body].partition(' ').last}")
         #{session[:twitter]} #{session[:citylocate]}    
      request.oauth! http, consumer_key, access_token
      response = http.request request
+   else
+     handle_error.text
    end
  end
   
