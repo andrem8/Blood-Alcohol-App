@@ -134,6 +134,12 @@ def handle_error
   end
 end
 
+def hande_tweetsent_sms
+  fwiml = Twilio::TwiML::Response.new do |r|
+    r.Sms "Your tweet was sent!  Check out the feed at on Twitter @drunktxter."
+  end
+end
+
  
 account_sid = "ACfa67ab7b63d3ae16a74365cd0cb14ae2"
 auth_token = "f79e1d47cc1cc36ae5de4ead98b226b2"
@@ -177,6 +183,7 @@ get '/' do
    elsif @x.include?("tweet")
      handle_twitterstatus
      Twitter.update(session[:twitter]+" \##{session[:citylocate]}"+" \##{session[:bac].to_s}") unless session[:twitter].nil?
+     handle_tweetsent_sms
    else
      handle_errors.text
    end
