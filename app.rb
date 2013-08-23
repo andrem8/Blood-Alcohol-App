@@ -188,7 +188,7 @@ get '/' do
      handle_time
    elsif @x.include?("tweet")
      handle_twitterstatus
-     Twitter.update(session[:twitter]+" \##{session[:bac].to_s}") unless session[:twitter].nil?
+     Twitter.update(session[:twitter]+" \#AtaBACof#{session[:bac].to_s}") unless session[:twitter].nil?
      handle_tweetsent_sms.text
    else
      handle_errors.text
