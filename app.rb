@@ -6,6 +6,7 @@ require 'twilio-ruby'
 require 'oauth'
 require 'twitter'
 
+
 enable :sessions
 
 def round_to_precision(num, prec)
@@ -192,7 +193,7 @@ get '/' do
      handle_time
    elsif @x.include?("tweet")
      handle_twitterstatus
-     Twitter.update(session[:twitter]+"#BloodAlcohol"+"##{session[:bac].to_s}") unless session[:twitter].nil?
+     Twitter.update(session[:twitter]+ "―BAC of #{session[:bac].to_s}") unless session[:twitter].nil?
      handle_tweetsent_sms.text
    else
      handle_errors.text
