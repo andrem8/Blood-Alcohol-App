@@ -196,7 +196,7 @@ get '/' do
      Twitter.update(session[:twitter]+ "―BAC of #{session[:bac].to_s}") unless session[:twitter].nil?
      handle_tweetsent_sms.text
    else
-     handle_errors.text
+     handle_error.text
    end
  end
   
