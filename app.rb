@@ -102,7 +102,11 @@ def handle_bac_response
     if session[:bac] == nil
       puts "error terror"
     else
-        if session[:bac] >= 0.08  
+        if session[:bac].between?(1.39,10)
+          r.Sms "Your BAC of #{session[:bac]} is higher than the highest recorded BAC."
+        elsif session[:bac].between?(0.41,1.39)  
+          r.Sms "Your BAC of #{session[:bac]} is near fatal.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit."
+        elsif session[:bac].between?(0.081,0.4)  
           r.Sms "Your BAC of #{session[:bac]} is over 0.08.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit. Text tweet and a message!"
         elsif session[:bac].between?(0,0.08)
           r.Sms "Your BAC of #{session[:bac]} is under the limit"
@@ -188,7 +192,7 @@ get '/' do
      handle_time
    elsif @x.include?("tweet")
      handle_twitterstatus
-     Twitter.update(session[:twitter]+" \#AtaBACof#{session[:bac].to_s}") unless session[:twitter].nil?
+     Twitter.update(session[:twitter]+" \#BloodAlcohol\##{session[:bac].to_s}") unless session[:twitter].nil?
      handle_tweetsent_sms.text
    else
      handle_errors.text
