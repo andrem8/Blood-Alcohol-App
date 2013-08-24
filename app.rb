@@ -183,7 +183,7 @@ get '/' do
   end
   
    
-  if @x.include?("drunk") then
+  if @x.include?("beer") then
      handle_welcome_bac.text
   elsif @x.include?("weight")
      handle_weight
