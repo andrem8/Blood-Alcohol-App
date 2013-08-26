@@ -152,25 +152,25 @@ def handle_tweetsent_sms
 end
 
  
-account_sid = "ACfa67ab7b63d3ae16a74365cd0cb14ae2"
-auth_token = "f79e1d47cc1cc36ae5de4ead98b226b2"
+account_sid = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+auth_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 client = Twilio::REST::Client.new account_sid, auth_token
  
 from = "+16506459938" # Your Twilio number
 #Twitter Stuff
 consumer_key = OAuth::Consumer.new(
-  "KgVEEBIltLRA8PxK2vzTQ",
-  "kGGE4u3gcRf89l21GxinXopblPTh06vTNVft6QYTU")
+  "xxxxxxxxxxxxxxxxxxx",
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 access_token = OAuth::Token.new(
-  "1674434030-5eLHRjST9620ptSpE845YdVt3OGtz7LNOdGkZdd",
-  "H0sR8hiRU5vSkqPJvpUflRdxvEQPjvmAxuaq3xfnxI")
+  "xxxxxxxxxxxxxxxxxxx",
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 
 Twitter.configure do |config|
-  config.consumer_key = "KgVEEBIltLRA8PxK2vzTQ"
-  config.consumer_secret = "kGGE4u3gcRf89l21GxinXopblPTh06vTNVft6QYTU"
-  config.oauth_token = "1674434030-5eLHRjST9620ptSpE845YdVt3OGtz7LNOdGkZdd"
-  config.oauth_token_secret = "H0sR8hiRU5vSkqPJvpUflRdxvEQPjvmAxuaq3xfnxI"
+  config.consumer_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.consumer_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.oauth_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.oauth_token_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 end
 
 get '/' do
