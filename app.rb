@@ -45,7 +45,7 @@ def handle_time
   session[:time] = params[:Body].partition(' ').last.to_f * 0.015
   if session[:time].nil? == true
     handle_error.text
-  elsif session[:time] < 0.01
+  elsif session[:time] < 0.001
     handle_error.text
   else
     handle_bac
