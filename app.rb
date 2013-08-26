@@ -106,13 +106,13 @@ def handle_bac_response
         if session[:bac].between?(1.39,10)
           r.Sms "Your BAC of #{session[:bac]} is higher than the highest recorded BAC."
         elsif session[:bac].between?(0.41,1.39)  
-          r.Sms "Your BAC of #{session[:bac]} is near fatal.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit."
+          r.Sms "Your BAC of #{session[:bac]} is near fatal.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit. Text TWEET and a message!"
         elsif session[:bac].between?(0.081,0.4)  
-          r.Sms "Your BAC of #{session[:bac]} is over 0.08.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit. Text tweet and a message!"
+          r.Sms "Your BAC of #{session[:bac]} is over 0.08.  In #{session[:hoursleft]} hrs #{session[:minutesleft]} mins you (may) be under the limit. Text TWEET and a message!"
         elsif session[:bac].between?(0,0.08)
-          r.Sms "Your BAC of #{session[:bac]} is under the limit"
+          r.Sms "Your BAC of #{session[:bac]} is under the limit.  Text TWEET and a message"
         elsif session[:bac].between?(-0.5,0)
-          r.Sms "Have another beer"
+          r.Sms "You should be sober."
         end
     end
   end
@@ -120,22 +120,22 @@ end
  
 def handle_welcome_bac
   twiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hey there! Welcome to the BAC app! Please text weight followed by well your weight"
+    r.Sms "Hey there! Welcome to the BAC app! Please text WEIGHT followed by your weight in lbs"
   end
 end
 def handle_drinks_sms
   himl = Twilio::TwiML::Response.new do |r|
-    r.Sms "Cool, now text drinks followed by how many drinks you've had"
+    r.Sms "Cool, now text DRINKS followed by how many drinks you've had"
   end
 end
 def handle_time_sms
   timl = Twilio::TwiML::Response.new do |r|
-    r.Sms "Almost there!!! Text time followed by how many hours you've been drinking"
+    r.Sms "Almost there! Text TIME followed by how many hours you've been drinking"
   end
 end
 def handle_error
   swiml = Twilio::TwiML::Response.new do |r|
-    r.Sms "Hmm, try that again.  I have no idea what you just input."
+    r.Sms "Hmm, try that again.  I can't understand your request."
   end
 end
 
