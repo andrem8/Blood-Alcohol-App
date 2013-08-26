@@ -167,10 +167,10 @@ access_token = OAuth::Token.new(
 
 
 Twitter.configure do |config|
-  config.consumer_key = "KgVEEBIltLRA8PxK2vzTQ"
-  config.consumer_secret = "kGGE4u3gcRf89l21GxinXopblPTh06vTNVft6QYTU"
-  config.oauth_token = "1674434030-5eLHRjST9620ptSpE845YdVt3OGtz7LNOdGkZdd"
-  config.oauth_token_secret = "H0sR8hiRU5vSkqPJvpUflRdxvEQPjvmAxuaq3xfnxI"
+  config.consumer_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.consumer_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.oauth_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  config.oauth_token_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 end
 
 get '/' do
